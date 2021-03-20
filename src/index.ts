@@ -13,6 +13,7 @@ async function publish() {
     ch.assertQueue(q, {durable: false});
     const msg = `${Date.now()}`;
     ch.sendToQueue(q, Buffer.from(msg));
+    await conn.close();
     console.log(`Message sent:\n${msg}\n`);
   } catch (error) {
     console.warn(error);
