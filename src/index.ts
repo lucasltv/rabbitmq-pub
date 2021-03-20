@@ -8,13 +8,13 @@ const {QUEUE_URL} = process.env;
 const q = 'hello';
 const e = 'exchange_test';
 
-let conn = null;
 async function start(broadCast = false) {
   try {
-    conn = await amqp.connect(QUEUE_URL);
+    const conn = await amqp.connect(QUEUE_URL);
     const ch = await conn.createChannel();
     ch.assertQueue(q, {durable: false});
     ch.assertExchange(e, 'fanout', {durable: false});
+    ch.bindQueue(q, e, '');
     setInterval(() => {
       const msg = `${Date.now()}`;
       if (broadCast) {
@@ -26,7 +26,6 @@ async function start(broadCast = false) {
       console.log(`Message sent:\n${msg}\n`);
     }, 1e3);
   } catch (error) {
-    await conn.close();
     console.warn(error);
     process.exit(1);
   }
