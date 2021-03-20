@@ -1,2 +1,2 @@
-# rabbitmq-pub-sub
-Rabbitmq pub-sub
+# rabbitmq-pub
+Rabbitmq publisher
